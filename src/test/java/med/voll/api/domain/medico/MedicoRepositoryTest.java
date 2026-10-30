@@ -111,6 +111,4 @@ class MedicoRepositoryTest {
                 null
         );
     }
-
-
 }

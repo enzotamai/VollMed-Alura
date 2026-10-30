@@ -18,6 +18,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc; // Spring Boot 4+
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
+import org.springframework.test.context.ActiveProfiles;
 
 import java.time.LocalDateTime;
 
@@ -29,6 +30,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 @SpringBootTest
 @AutoConfigureMockMvc
 @AutoConfigureJsonTesters
+@ActiveProfiles("test")
 class ConsultaControllerTest {
 
     @Autowired
@@ -45,11 +47,12 @@ class ConsultaControllerTest {
 
     @Test
     @DisplayName("Deveria devolver http 400 quando as informacoes estao invalidas")
-    @WithMockUser
     void agendar_cenario1() throws Exception {
+
         var response = mvc.perform(
                 post("/consultas")
-                        .with(csrf())
+                        .with(user("teste").roles("USER"))
+                        .contentType(MediaType.APPLICATION_JSON)
         ).andReturn().getResponse();
 
         assertThat(response.getStatus())
