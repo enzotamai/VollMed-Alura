@@ -2,6 +2,7 @@ package med.voll.api.domain.consulta.Validacoes.cancelamento;
 
 import med.voll.api.domain.ValidacaoException;
 import med.voll.api.domain.consulta.ConsultaRepository;
+import med.voll.api.domain.consulta.DadosCancelamentoConsulta;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -15,7 +16,7 @@ public class ValidadorHorarioAntecedencia implements ValidadorCancelamentoDeCons
     private ConsultaRepository repository;
 
     @Override
-    public void validar(DadosCancelamentoConsulta daods) {
+    public void validar(DadosCancelamentoConsulta dados) {
         var consulta = repository.getReferenceById(dados.idConsulta());
         var agora = LocalDateTime.now();
         var diferencaEmHoras = Duration.between(agora, consulta.getData()).toHours();
