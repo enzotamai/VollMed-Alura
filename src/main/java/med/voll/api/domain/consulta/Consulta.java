@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import java.time.LocalDateTime;
 
 @Table(name = "consultas")
-@Entity(name = "Consulta")
+@Entity(name = "Consultas")
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
@@ -26,44 +26,22 @@ public class Consulta {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "medico_id")
+    @JoinColumn(name = "medico.id")
     private Medico medico;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "paciente_id")
+    @JoinColumn(name = "paciente.id")
     private Paciente paciente;
 
-    private LocalDateTime data;
-
-    @Column(name = "motivo_cancelamento")
     @Enumerated(EnumType.STRING)
     private MotivoCancelamento motivoCancelamento;
 
-    public Long getId() {
-        return id;
-    }
+    private LocalDateTime data;
 
-    public Medico getMedico() {
-        return medico;
+    public Consulta(Object o,
+                    Medico medico,
+                    Paciente paciente,
+                    @NotNull @Future
+                    LocalDateTime data) {
     }
-
-    public Paciente getPaciente() {
-        return paciente;
-    }
-
-    public LocalDateTime getData() {
-        return data;
-    }
-
-    public Consulta(Long id, Medico medico, Paciente paciente, LocalDateTime data) {
-        this.id = id;
-        this.medico = medico;
-        this.paciente = paciente;
-        this.data = data;
-    }
-
-    public void cancelar(MotivoCancelamento motivo) {
-        this.motivoCancelamento = motivo;
-    }
-
 }
